@@ -1,8 +1,9 @@
 
-from madlib_interface import MadlibGUI
+from madlib_gui import MadlibGUI
 from madlib_data import MadlibData
 from madlib import Madlib
 import random
+
 
 class MadlibLogic:
     """The logic and middle layer of the Madlib game.
@@ -20,11 +21,11 @@ class MadlibLogic:
 
         for placeholder in ml.get_placeholders():
             if placeholder not in placeholder_words_dict.keys():
-                placeholder_words_dict[placeholder] = data.load_words(f"static/{placeholder.replace(' ','_')}s.txt")
+                placeholder_words_dict[placeholder] = data.load_words(f"data/{placeholder.replace(' ','_')}s.txt")
 
         return placeholder_words_dict
 
-    def get_computer_inputs(self,ml: Madlib, data: MadlibData) -> list:
+    def get_computer_inputs(self, ml: Madlib, data: MadlibData) -> list:
         """Will provide computer-selected inputs for the Madlib puzzle.
 
         Loads possible word selections from data layer and randomly selects
@@ -39,7 +40,7 @@ class MadlibLogic:
 
         return input_list
 
-    def choose_madlib(self,player_choice,num_madlibs, gui) -> int:
+    def choose_madlib(self, player_choice, num_madlibs, gui) -> int:
         """Prompts user or system to select from available Madlib puzzles.
 
         Depending on player_choice, will either prompt user to select, or
@@ -53,7 +54,6 @@ class MadlibLogic:
         else:
             return random.randint(1, num_madlibs)
 
-
     def play_game(self):
         """Core driver of the game
 
@@ -63,9 +63,9 @@ class MadlibLogic:
         data = MadlibData()
         gui = MadlibGUI()
 
-        madlibs_list: list[Madlib] = [Madlib(x[0], x[1]) for x in data.load_stories("static/madlibs.txt")]
+        madlibs_list: list[Madlib] = [Madlib(x[0], x[1]) for x in data.load_stories("data/madlibs.txt")]
         if madlibs_list == []:
-            print("No madlibs were loaded. Please check for static/madlibs.txt and ensure stories and placeholders are present")
+            print("No madlibs were loaded. Please check for data/madlibs.txt and ensure stories and placeholders are present")
             return 0
         player_is_user: bool = gui.player_selection()
         print(f"User as player: {player_is_user}")
@@ -92,7 +92,7 @@ class MadlibLogic:
 
         madlib.fill_story(inputs)
         completed_story = madlib.get_completed_story()
-        data.write_story_to_file("./completed_madlibs.txt",completed_story)
+        data.write_story_to_file("./completed_madlibs.txt", completed_story)
 
         play_again = gui.display_completed_story(completed_story)
 

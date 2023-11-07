@@ -5,7 +5,6 @@ from madlib import Madlib
 
 class MadlibGUI():
 
-
     def __init__(self):
         self.title = 'MadLibs'
         self.B1 = '-B1-'
@@ -117,10 +116,10 @@ class MadlibGUI():
         window.close()
         return input_list
 
-    def display_completed_story(self,completed_story: str) -> None:
+    def display_completed_story(self, completed_story: str) -> None:
         layout = [
             [sg.Text(textwrap.fill(completed_story, 100), key=self.Q)],
-            [sg.Button("Play again!",key=self.B1),sg.Button("Exit",key=self.B2)]
+            [sg.Button("Play again!", key=self.B1), sg.Button("Exit", key=self.B2)]
         ]
         play_again = 0
         window = sg.Window(self.title, layout)
